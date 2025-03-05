@@ -25,16 +25,6 @@ class Rover
     end
   end
 
-  def determine_direction
-    case @orientation
-    when "N" then @y_position += 1
-    when "S" then @y_position -= 1
-    when "E" then @x_position += 1
-    when "W" then @x_position -= 1
-    else "ERROR MESSAGE HERE"
-    end
-  end
-
   def determine_orientation(instruction)
     case instruction
     when "L"
@@ -45,6 +35,17 @@ class Rover
       "ERROR MESSAGE HERE" # TODO: add proper error checking
     end
   end
+
+  def determine_direction
+    case @orientation
+    when "N" then @y_position += 1
+    when "S" then @y_position -= 1
+    when "E" then @x_position += 1
+    when "W" then @x_position -= 1
+    else "ERROR MESSAGE HERE"
+    end
+  end
+
 
   def set_next_moves
     compass = {
@@ -57,11 +58,11 @@ class Rover
     if compass[:current] == @orientation
       compass
     elsif compass[:left] == @orientation
-      return orient_left(compass)
+      orient_left(compass)
     elsif compass[:right] == @orientation
-      return orient_right(compass)
+      orient_right(compass)
     else
-      return orient_opposite(compass)
+      orient_opposite(compass)
     end
   end
 
