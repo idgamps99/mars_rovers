@@ -1,4 +1,4 @@
-require_relative '../plateau'
+require_relative '../classes/plateau'
 
 RSpec.describe 'Plateau' do
   let(:plateau) { Plateau.new(5, 5) }

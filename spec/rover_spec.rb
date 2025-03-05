@@ -1,4 +1,4 @@
-require_relative '../rover'
+require_relative '../classes/rover'
 
 RSpec.describe 'Rover' do
   let(:rover) { Rover.new(1, 2, "N")}
