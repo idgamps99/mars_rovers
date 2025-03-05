@@ -51,11 +51,10 @@ class Interface
   end
 
   def parse_coordinates(instruction)
-    return false unless intruction.length == 2
-    return false unless instruction.is_a?(Integer)
-    instructions.chars.map do |int|
-      int.to_i
-    end
+    two_ints = /^\d{2}$/
+    instruction.gsub!(/\s+/, "") unless nil
+    return false unless two_ints.match?(instruction)
+    instruction.chars.map(&:to_i)
   end
 
   def parse_rover_positions(instruction)
