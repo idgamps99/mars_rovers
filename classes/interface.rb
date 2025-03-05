@@ -15,10 +15,11 @@ class Interface
   end
 
   def run
-    get_instruction
-    # create_plateau
-    # create_rover
-    # move_rover
+    instructs = get_instruction
+    @plateau = Plateau.new(instructs[0][0], instructs[0][1])
+    @rover1 = Rover.new(instructs[1][0], instructs[1][1], instructs[1][2])
+    @rover2 = Rover.new(instructs[3][0], instructs[3][1], instructs[3][2])
+    move_rover
     # track_rover
     # output_status
   end
@@ -26,11 +27,15 @@ class Interface
   private
 
   def get_instruction
+    # user will continue to be prompted until a correct instruction is received
      instructions = @messages.map do |key, message|
       loop do
-        break if validate_instruction(prompt(message), key)
+        @response = validate_instruction(prompt(message), key)
+        break if @response
       end
+      @response
     end
+    instructions
   end
 
   def prompt(prompt)
@@ -52,21 +57,29 @@ class Interface
 
   def parse_coordinates(instruction)
     two_ints = /^\d{2}$/
-    instruction.gsub!(/\s+/, "") unless nil
+    strip_white_spaces(instruction)
     return false unless two_ints.match?(instruction)
     instruction.chars.map(&:to_i)
   end
 
   def parse_rover_positions(instruction)
+    valid_position = /^[neswNESW]{1}\d{2}$/ # NSEW + 2 integers
+    strip_white_spaces(instruction)
+    return false unless valid_position.match?(instruction)
+    instruction.chars.each_with_index.map do |char, index|
+      index == 0 ? char.upcase : char.to_i
+    end
   end
 
   def parse_movements(instruction)
+    valid_movement = /^[lrmLRM]+$/
+    strip_white_spaces(instruction)
+    return false unless valid_movement.match?(instruction)
+    instruction.upcase
   end
 
-  def create_rover
-  end
-
-  def create_plateau
+  def strip_white_spaces(instruction)
+    instruction.gsub!(/\s+/, "") unless nil
   end
 
   def move_rover

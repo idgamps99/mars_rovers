@@ -1,15 +1,14 @@
 class Rover
   attr_reader :x_position, :y_position, :orientation
 
-  def initialize(x, y, orientation)
+  def initialize(orientation, x, y)
+    @orientation = orientation
     @x_position = x
     @y_position = y
-    @orientation = orientation
     @moves = set_next_moves
   end
 
   def move(instructions)
-    # check for correct input
     instructions.chars.each do |instruction|
       determine_move_or_orient(instruction)
     end
@@ -66,21 +65,21 @@ class Rover
     end
   end
 
-  def orient_right(moves)
-    moves[:current], moves[:left], moves[:right], moves[:opposite] = moves[:right], moves[:current], moves[:opposite], moves[:left]
-    @orientation = moves[:current]
-    moves
+  def orient_right(m)
+    m[:current], m[:left], m[:right], m[:opposite] = m[:right], m[:current], m[:opposite], m[:left]
+    @orientation = m[:current]
+    m
   end
 
-  def orient_left(moves)
-    moves[:current], moves[:left], moves[:right], moves[:opposite] = moves[:left], moves[:opposite], moves[:current], moves[:right]
-    @orientation = moves[:current]
-    moves
+  def orient_left(m)
+    m[:current], m[:left], m[:right], m[:opposite] = m[:left], m[:opposite], m[:current], m[:right]
+    @orientation = m[:current]
+    m
   end
 
-  def orient_opposite(moves)
-    moves[:current], moves[:left], moves[:right], moves[:opposite] = moves[:opposite], moves[:right], moves[:left], moves[:current]
-    @orientation = moves[:current]
-    moves
+  def orient_opposite(m)
+    m[:current], m[:left], m[:right], m[:opposite] = m[:opposite], m[:right], m[:left], m[:current]
+    @orientation = m[:current]
+    m
   end
 end
