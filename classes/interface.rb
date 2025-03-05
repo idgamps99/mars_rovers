@@ -15,12 +15,9 @@ class Interface
   end
 
   def run
-    instructs = get_instruction
-    @plateau = Plateau.new(instructs[0][0], instructs[0][1])
-    @rover1 = Rover.new(instructs[1][0], instructs[1][1], instructs[1][2])
-    @rover2 = Rover.new(instructs[3][0], instructs[3][1], instructs[3][2])
-    move_rover
-    # track_rover
+    instantiate_classes(get_instruction)
+    check_valid_start_positions
+    enact_instructs
     # output_status
   end
 
@@ -82,7 +79,23 @@ class Interface
     instruction.gsub!(/\s+/, "") unless nil
   end
 
-  def move_rover
+  def instantiate_classes(instructions)
+    @plateau = Plateau.new(instructions[0][0], instructions[0][1])
+    @rover1 = Rover.new(instructions[1][0], instructions[1][1], instructions[1][2])
+    @rover2 = Rover.new(instructions[3][0], instructions[3][1], instructions[3][2])
+  end
+
+  def check_valid_start_positions
+  end
+
+  def enact_instructions
+    # move rover
+    # track rover
+    # move rover
+    # track rover
+  end
+
+  def move_rover(rover)
   end
 
   def track_rover

@@ -26,12 +26,8 @@ class Rover
 
   def determine_orientation(instruction)
     case instruction
-    when "L"
-      orient_left(@moves)
-    when "R"
-      orient_right(@moves)
-    else
-      "ERROR MESSAGE HERE" # TODO: add proper error checking
+    when "L" then orient_left(@moves)
+    when "R" then orient_right(@moves)
     end
   end
 
@@ -41,7 +37,6 @@ class Rover
     when "S" then @y_position -= 1
     when "E" then @x_position += 1
     when "W" then @x_position -= 1
-    else "ERROR MESSAGE HERE"
     end
   end
 
