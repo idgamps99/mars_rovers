@@ -11,7 +11,7 @@ RSpec.describe 'Rover' do
     expect(rover.y_position).to eq(2)
   end
 
-  it 'must have an orientation' do
+  it 'has an orientation' do
     expect(rover.orientation).to eq("N")
   end
 
@@ -33,6 +33,6 @@ RSpec.describe 'Rover' do
       expect(move_rover.orientation).to eq("E")
     end
 
-    # test for error checking here 
+    # test for error checking here
   end
 end
