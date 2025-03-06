@@ -3,6 +3,16 @@ require_relative '../classes/rover'
 RSpec.describe 'Rover' do
   let(:rover) { Rover.new(1, 2, "N")}
 
+  def calculate_next
+    rover.calculate_move("LMLMLMMLMMR")
+    rover
+  end
+
+  def move
+    calculate_next
+    rover.move
+    rover
+  end
   it 'has a x position' do
     expect(rover.x_position).to eq(1)
   end
@@ -16,23 +26,31 @@ RSpec.describe 'Rover' do
   end
 
   context 'when calculating move' do
-    def move_rover
-      rover.calculate_move("LMLMLMMLMMR")
-      rover
-    end
 
     it 'correctly changes next x position' do
-      expect(move_rover.next_x).to eq(2)
+      expect(calculate_next.next_x).to eq(2)
     end
 
     it 'correctly changes next y position' do
-      expect(move_rover.next_y).to eq(3)
+      expect(calculate_next.next_y).to eq(3)
     end
 
     it 'correctly changes next orientation' do
-      expect(move_rover.next_orientation).to eq("E")
+      expect(calculate_next.next_orientation).to eq("E")
+    end
+  end
+
+  context 'when moving rover' do
+    it 'correctly changes x position' do
+      expect(move.x_position).to eq(2)
     end
 
-    # test for error checking here
+    it 'correctly changes x position' do
+      expect(move.y_position).to eq(3)
+    end
+
+    it 'correctly changes orientation' do
+      expect(move.orientation).to eq("E")
+    end
   end
 end
