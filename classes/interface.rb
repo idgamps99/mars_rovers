@@ -77,7 +77,7 @@ class Interface
     strip_white_spaces(instruction)
     return false unless valid_position.match?(instruction)
     instruction.chars.each_with_index.map do |char, index|
-      index == 0 ? char.upcase : char
+      index == 2 ? char.upcase : char
     end
   end
 

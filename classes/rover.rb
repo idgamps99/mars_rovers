@@ -88,4 +88,3 @@ class Rover
     m
   end
 end
-
