@@ -19,6 +19,12 @@ class Plateau
     unoccupy(old)
   end
 
+  def within_bounds?(coordinates)
+    return false unless coordinates[0] <= @x_coordinate && coordinates[1] <= @y_coordinate
+    return false unless coordinates[0] >= 0 && coordinates[1] >= 0
+    true
+  end
+  
   private
 
   def set_grid
@@ -42,11 +48,6 @@ class Plateau
     true
   end
 
-  def within_bounds?(coordinates)
-    return false unless coordinates[0] <= @x_coordinate && coordinates[1] <= @y_coordinate
-    return false unless coordinates[0] >= 0 && coordinates[1] >= 0
-    true
-  end
 
   def unoccupied?(coordinates)
     @grid[coordinates] == false

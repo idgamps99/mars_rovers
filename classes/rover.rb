@@ -1,10 +1,10 @@
 class Rover
   attr_reader :x_position, :y_position, :orientation
 
-  def initialize(orientation, x, y)
+  def initialize(x, y, orientation)
     @orientation = orientation
-    @x_position = x
-    @y_position = y
+    @x_position = x.to_i
+    @y_position = y.to_i
     @moves = set_next_moves
   end
 
