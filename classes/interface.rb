@@ -31,8 +31,8 @@ class Interface
 
     unless move_n_track_rover(@rover1, instructions[2]) && move_n_track_rover(@rover2, instructions[4])
       puts @errors[:invalidmove]
+      self.run
     end
-
     output_status
   end
 
@@ -77,7 +77,7 @@ class Interface
     strip_white_spaces(instruction)
     return false unless valid_position.match?(instruction)
     instruction.chars.each_with_index.map do |char, index|
-      index == 0 ? char.upcase : char.to_i
+      index == 0 ? char.upcase : char
     end
   end
 
@@ -87,10 +87,6 @@ class Interface
     return false unless valid_movement.match?(instruction)
     instruction.upcase
   end
-
-  # def verify_regex(regex, instruction)
-  #   return false unless regex.match?(instruction)
-  # end
 
   def strip_white_spaces(instruction)
     instruction.gsub!(/\s+/, "") unless nil
