@@ -26,7 +26,7 @@ class Interface
       self.run
     end
     set_rover_positions
-    move_n_track_rovers
+    move_n_track_rovers(instructions[2], instructions[4])
     output_status
   end
 
@@ -108,8 +108,13 @@ class Interface
     @plateau.set_start_position(@rover2)
   end
 
-  def move_n_track_rovers
-  
+  def move_n_track_rovers(instruction1, instruction2)
+    return false unless verify_move(@rover1, instruction1) && verify_move(@rover2, instruction2)
+    
+  end
+
+  def verify_move(rover, instruction)
+    return false unless @plateau.valid_move?(rover.calculate_move(instruction))
   end
 
   def move_rover(rover)
@@ -120,5 +125,4 @@ class Interface
 
   def output_status
   end
-
 end

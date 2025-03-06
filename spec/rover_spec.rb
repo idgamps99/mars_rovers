@@ -15,22 +15,22 @@ RSpec.describe 'Rover' do
     expect(rover.orientation).to eq("N")
   end
 
-  context 'when moved' do
+  context 'when calculating move' do
     def move_rover
-      rover.move("LMLMLMMLMMR")
+      rover.calculate_move("LMLMLMMLMMR")
       rover
     end
 
-    it 'correctly changes x position' do
-      expect(move_rover.x_position).to eq(2)
+    it 'correctly changes next x position' do
+      expect(move_rover.next_x).to eq(2)
     end
 
-    it 'correctly changes y position' do
-      expect(move_rover.y_position).to eq(3)
+    it 'correctly changes next y position' do
+      expect(move_rover.next_y).to eq(3)
     end
 
-    it 'correctly changes orientation' do
-      expect(move_rover.orientation).to eq("E")
+    it 'correctly changes next orientation' do
+      expect(move_rover.next_orientation).to eq("E")
     end
 
     # test for error checking here
