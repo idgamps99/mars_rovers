@@ -19,10 +19,10 @@ class Rover
   end
 
   def move
-    @x_position = @next_x
-    @y_position = @next_y
+    @x_position  = @next_x
+    @y_position  = @next_y
     @orientation = @next_orientation
-    @moves = @next_moves
+    @moves       = @next_moves
   end
 
   private

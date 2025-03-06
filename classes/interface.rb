@@ -4,7 +4,8 @@ require_relative 'rover'
 class Interface
   def initialize
     @errors = {
-      invalidpos: "\nERROR: INVALID ROVER STARTING POSITION"
+      invalidpos: "\nERROR: INVALID ROVER STARTING POSITION",
+      invalidmove: "\nERROR: INVALID ROVER MOVE"
     }
     @directions = "\nYou will continue to be prompted until your responses fit these criteria:\n
       1 - All coordinates must be only two integers\n
@@ -25,8 +26,13 @@ class Interface
       puts @errors[:invalidpos]
       self.run
     end
+
     set_rover_positions
-    move_n_track_rovers(instructions[2], instructions[4])
+
+    unless move_n_track_rover(@rover1, instructions[2]) && move_n_track_rover(@rover2, instructions[4])
+      puts @errors[:invalidmove]
+    end
+
     output_status
   end
 
@@ -109,22 +115,28 @@ class Interface
     @plateau.set_start_position(@rover2)
   end
 
-  def move_n_track_rovers(instruction1, instruction2)
-    return false unless verify_move(@rover1, instruction1)
-    move_rover(@rover1)
+  def move_n_track_rover(rover, instruction)
+    return false unless verify_move(rover, instruction)
+    move_rover(rover)
+    true
   end
 
   def verify_move(rover, instruction)
-    return false unless @plateau.valid_move?(rover.calculate_move(instruction))
+    rover.calculate_move(instruction)
+    @plateau.valid_move?([rover.next_x, rover.next_y])
   end
 
   def move_rover(rover)
+    track_rover(rover)
     rover.move
   end
 
-  def track_rover
+  def track_rover(rover)
+    @plateau.track([rover.next_x, rover.next_y], [rover.x_position, rover.y_position])
   end
 
   def output_status
+    puts "\nRover 1 Final Position: #{@rover1.x_position}#{@rover1.y_position}#{@rover1.orientation}"
+    puts "\nRover 2 Final Position: #{@rover2.x_position}#{@rover2.y_position}#{@rover2.orientation}"
   end
 end
