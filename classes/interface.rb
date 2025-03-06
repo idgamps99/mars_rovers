@@ -4,7 +4,7 @@ require_relative 'rover'
 class Interface
   def initialize
     @errors = {
-      invalidpos: "\nERROR: ROVER START POSITION OUT OF BOUNDS"
+      invalidpos: "\nERROR: INVALID ROVER STARTING POSITION"
     }
     @directions = "\nYou will continue to be prompted until your responses fit these criteria:\n
       1 - All coordinates must be only two integers\n
@@ -22,11 +22,12 @@ class Interface
   def run
     instructions = get_instructions
     unless instantiate_classes(instructions)
-      puts @errors[:invalidco1]
+      puts @errors[:invalidpos]
       self.run
     end
-    enact_instructions
-    # output_status
+    set_rover_positions
+    move_n_track_rovers
+    output_status
   end
 
   private
@@ -98,15 +99,17 @@ class Interface
   def check_valid_start_positions
     return false unless @plateau.within_bounds?([@rover1.x_position, @rover1.y_position])
     return false unless @plateau.within_bounds?([@rover2.x_position, @rover2.y_position])
-    return false if @rover1.x_position == @rover2.x_position || @rover1.y_position == @rover2.y_position
+    return false if @rover1.x_position == @rover2.x_position && @rover1.y_position == @rover2.y_position
     true
   end
 
-  def enact_instructions
-    # move rover
-    # track rover
-    # move rover
-    # track rover
+  def set_rover_positions
+    @plateau.set_start_position(@rover1)
+    @plateau.set_start_position(@rover2)
+  end
+
+  def move_n_track_rovers
+  
   end
 
   def move_rover(rover)

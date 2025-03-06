@@ -24,7 +24,11 @@ class Plateau
     return false unless coordinates[0] >= 0 && coordinates[1] >= 0
     true
   end
-  
+
+  def set_start_position(rover)
+    @grid[[rover.x_position, rover.y_position]] = true
+  end
+
   private
 
   def set_grid
