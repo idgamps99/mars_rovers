@@ -1,6 +1,6 @@
 class Rover
   attr_reader :x_position, :y_position, :orientation, :next_x, :next_y, :next_moves, :next_orientation
-  
+
   def initialize(x, y, orientation)
     @x_position = x.to_i
     @y_position = y.to_i
@@ -40,10 +40,11 @@ class Rover
 
   def determine_orientation(instruction)
     case instruction
-    when "L" then orient_left(@next_moves)
-    when "R" then orient_right(@next_moves)
+    when "L"
+      orient_left(@next_moves)
+    when "R"
+      orient_right(@next_moves)
     end
-    true
   end
 
   def determine_direction

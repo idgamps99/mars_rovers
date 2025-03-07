@@ -113,28 +113,34 @@ class Interface
 
   def move_n_track_rover(rover, instructions)
     instructions.chars.each do |instruct|
-      if verify_move(rover, instruct)
-       move_rover(rover)
-      else
-        return false
+      rover.calculate_move(instruct)
+      case instruct
+      when "L", "R"
+        rover.move
+      when "M"
+        if @plateau.valid_move?([rover.next_x, rover.next_y])
+          @plateau.track([rover.next_x, rover.next_y], [rover.x_position, rover.y_position])
+          rover.move
+        else
+          return false
+        end
       end
     end
-    true
   end
 
-  def verify_move(rover, instruct)
-    rover.calculate_move(instruct)
-    @plateau.valid_move?([rover.next_x, rover.next_y])
-  end
+  # def verify_move(rover, instruct)
+  #   rover.calculate_move(instruct)
+  #   @plateau.valid_move?([rover.next_x, rover.next_y])
+  # end
 
-  def move_rover(rover)
-    track_rover(rover)
-    rover.move
-  end
+  # def move_rover(rover)
+  #   track_rover(rover)
+  #   rover.move
+  # end
 
-  def track_rover(rover)
-    @plateau.track([rover.next_x, rover.next_y], [rover.x_position, rover.y_position])
-  end
+  # def track_rover(rover)
+  #   @plateau.track([rover.next_x, rover.next_y], [rover.x_position, rover.y_position])
+  # end
 
   def output_status
     puts "\nRover 1 Final Position: #{@rover1.x_position}#{@rover1.y_position}#{@rover1.orientation}"
