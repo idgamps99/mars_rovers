@@ -12,11 +12,11 @@ class Rover
     @next_moves = @moves
   end
 
-  def calculate_move(instructions)
-    instructions.chars.each do |instruction|
-      determine_move_or_orient(instruction)
+  def calculate_move(instruction)
+    case instruction
+    when "L", "R" then determine_orientation(instruction)
+    when "M" then determine_direction
     end
-  end
 
   def move
     @x_position  = @next_x
@@ -27,17 +27,12 @@ class Rover
 
   private
 
-  def determine_move_or_orient(instruction)
-    case instruction
-    when "L", "R" then determine_orientation(instruction)
-    when "M" then determine_direction
-    end
-  end
-
   def determine_orientation(instruction)
     case instruction
-    when "L" then orient_left(@next_moves)
-    when "R" then orient_right(@next_moves)
+    when "L"
+      orient_left(@next_moves)
+    when "R"
+      orient_right(@next_moves)
     end
   end
 
@@ -49,7 +44,6 @@ class Rover
     when "W" then @next_x -= 1
     end
   end
-
 
   def set_next_moves
     compass = {
