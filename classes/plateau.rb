@@ -8,12 +8,8 @@ class Plateau
   end
 
   def valid_move?(coordinates)
-    p "coordinates == #{coordinates}"
-    p "valid_input == #{valid_input?(coordinates)}"
     return false unless valid_input?(coordinates)
-    p "within_bounds == #{within_bounds?(coordinates)}"
     return false unless within_bounds?(coordinates)
-    p "unoccupied? == #{unoccupied?(coordinates)}"
     return false unless unoccupied?(coordinates)
     true
   end

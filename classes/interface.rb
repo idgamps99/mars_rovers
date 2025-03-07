@@ -2,35 +2,35 @@ require_relative 'plateau'
 require_relative 'rover'
 
 class Interface
-  def initialize
-    @errors = {
-      invalidpos: "\nERROR: INVALID ROVER STARTING POSITION",
-      invalidmove: "\nERROR: INVALID ROVER MOVE"
-    }
-    @directions = "\nYou will continue to be asked the following until your responses fulfill all criteria:\n
-      1 - All coordinates must be only two integers\n
-      2 - A rover's start position must contain it coordinates followed by itS orientation [N, E, S, W]\n
-      3 - A rover's movement instructions must only contain [L, R, M] and must not lead the rover out of bounds\n"
-    @messages = {
-      prompt1: "\nEnter upper right coordinates of plateau: ",
-      prompt2: "\nEnter starting coordinates Rover 1: ",
-      prompt3: "\nEnter movement commands for Rover 1: ",
-      prompt4: "\nEnter starting coordinates Rover 2: ",
-      prompt5: "\nEnter movement commands for Rover 2: "
-    }
-  end
+  ERRORS = {
+    invalidpos: "\nERROR: INVALID ROVER STARTING POSITION",
+    invalidmove: "\nERROR: INVALID ROVER MOVE"
+  }
+
+  DIRECTIONS = "\nYou will continue to be asked the following until your responses fulfill all criteria:\n
+    1 - All coordinates must be only two integers\n
+    2 - A rover's start position must contain it coordinates followed by itS orientation [N, E, S, W]\n
+    3 - A rover's movement instructions must only contain [L, R, M] and must not lead the rover out of bounds\n"
+
+  MESSAGES = {
+    prompt1: "\nEnter upper right coordinates of plateau: ",
+    prompt2: "\nEnter starting coordinates Rover 1: ",
+    prompt3: "\nEnter movement commands for Rover 1: ",
+    prompt4: "\nEnter starting coordinates Rover 2: ",
+    prompt5: "\nEnter movement commands for Rover 2: "
+  }
 
   def run
     instructions = get_instructions
     unless instantiate_classes(instructions)
-      puts @errors[:invalidpos]
+      puts ERRORS[:invalidpos]
       self.run
     end
 
     set_rover_positions
 
     unless move_n_track_rover(@rover1, instructions[2]) && move_n_track_rover(@rover2, instructions[4])
-      puts @errors[:invalidmove]
+      puts ERRORS[:invalidmove]
       self.run
     end
     output_status
@@ -40,8 +40,8 @@ class Interface
 
   def get_instructions
     # user will continue to be prompted until a correct instruction is received
-    puts @directions
-     instructions = @messages.map do |key, message|
+    puts DIRECTIONS
+     instructions = MESSAGES.map do |key, message|
       loop do
         @response = validate_instruction(prompt(message), key)
         break if @response
@@ -66,16 +66,13 @@ class Interface
 
   def parse_coordinates(instruction)
     two_ints = /^\d{2}$/
-    strip_white_spaces(instruction)
-    # verify_regex(two_ints, instruction)
-    return false unless two_ints.match?(instruction)
+    return false unless check_against_regex(two_ints, instruction)
     instruction.chars.map(&:to_i)
   end
 
   def parse_rover_positions(instruction)
-    valid_position = /^\d{2}[neswNESW]{1}$/ # 2 integers + NESW
-    strip_white_spaces(instruction)
-    return false unless valid_position.match?(instruction)
+    valid_position = /^\d{2}[neswNESW]{1}$/
+    return false unless check_against_regex(valid_position, instruction)
     instruction.chars.each_with_index.map do |char, index|
       index == 2 ? char.upcase : char
     end
@@ -83,13 +80,13 @@ class Interface
 
   def parse_movements(instruction)
     valid_movement = /^[lrmLRM]+$/
-    strip_white_spaces(instruction)
-    return false unless valid_movement.match?(instruction)
+    return false unless check_against_regex(valid_movement, instruction)
     instruction.upcase
   end
 
-  def strip_white_spaces(instruction)
+  def check_against_regex(regex, instruction)
     instruction.gsub!(/\s+/, "") unless nil
+    regex.match?(instruction)
   end
 
   def instantiate_classes(instructions)
@@ -127,20 +124,6 @@ class Interface
       end
     end
   end
-
-  # def verify_move(rover, instruct)
-  #   rover.calculate_move(instruct)
-  #   @plateau.valid_move?([rover.next_x, rover.next_y])
-  # end
-
-  # def move_rover(rover)
-  #   track_rover(rover)
-  #   rover.move
-  # end
-
-  # def track_rover(rover)
-  #   @plateau.track([rover.next_x, rover.next_y], [rover.x_position, rover.y_position])
-  # end
 
   def output_status
     puts "\nRover 1 Final Position: #{@rover1.x_position}#{@rover1.y_position}#{@rover1.orientation}"
