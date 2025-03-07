@@ -17,6 +17,7 @@ class Rover
     when "L", "R" then determine_orientation(instruction)
     when "M" then determine_direction
     end
+  end
 
   def move
     @x_position  = @next_x
