@@ -7,9 +7,9 @@ class Interface
       invalidpos: "\nERROR: INVALID ROVER STARTING POSITION",
       invalidmove: "\nERROR: INVALID ROVER MOVE"
     }
-    @directions = "\nYou will continue to be prompted until your responses fit these criteria:\n
+    @directions = "\nYou will continue to be asked the following until your responses fulfill all criteria:\n
       1 - All coordinates must be only two integers\n
-      2 - A rover's start position must contain it coordinates followed by it orientation [N, E, S, W]\n
+      2 - A rover's start position must contain it coordinates followed by itS orientation [N, E, S, W]\n
       3 - A rover's movement instructions must only contain [L, R, M] and must not lead the rover out of bounds\n"
     @messages = {
       prompt1: "\nEnter upper right coordinates of plateau: ",
@@ -111,14 +111,19 @@ class Interface
     @plateau.set_start_position(@rover2)
   end
 
-  def move_n_track_rover(rover, instruction)
-    return false unless verify_move(rover, instruction)
-    move_rover(rover)
+  def move_n_track_rover(rover, instructions)
+    instructions.chars.each do |instruct|
+      if verify_move(rover, instruct)
+       move_rover(rover)
+      else
+        return false
+      end
+    end
     true
   end
 
-  def verify_move(rover, instruction)
-    rover.calculate_move(instruction)
+  def verify_move(rover, instruct)
+    rover.calculate_move(instruct)
     @plateau.valid_move?([rover.next_x, rover.next_y])
   end
 

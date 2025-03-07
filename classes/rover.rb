@@ -1,6 +1,6 @@
 class Rover
   attr_reader :x_position, :y_position, :orientation, :next_x, :next_y, :next_moves, :next_orientation
-
+  
   def initialize(x, y, orientation)
     @x_position = x.to_i
     @y_position = y.to_i
@@ -12,10 +12,14 @@ class Rover
     @next_moves = @moves
   end
 
-  def calculate_move(instructions)
-    instructions.chars.each do |instruction|
-      determine_move_or_orient(instruction)
+  def calculate_move(instruction)
+    case instruction
+    when "L", "R" then determine_orientation(instruction)
+    when "M" then determine_direction
     end
+    # instructions.chars.each do |instruction|
+    #   determine_move_or_orient(instruction)
+    # end
   end
 
   def move
@@ -27,18 +31,19 @@ class Rover
 
   private
 
-  def determine_move_or_orient(instruction)
-    case instruction
-    when "L", "R" then determine_orientation(instruction)
-    when "M" then determine_direction
-    end
-  end
+  # def determine_move_or_orient(instruction)
+  #   case instruction
+  #   when "L", "R" then determine_orientation(instruction)
+  #   when "M" then determine_direction
+  #   end
+  # end
 
   def determine_orientation(instruction)
     case instruction
     when "L" then orient_left(@next_moves)
     when "R" then orient_right(@next_moves)
     end
+    true
   end
 
   def determine_direction
