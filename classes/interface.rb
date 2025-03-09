@@ -9,7 +9,7 @@ class Interface
 
   DIRECTIONS = "\nYou will continue to be asked the following until your responses fulfill all criteria:\n
     1 - All coordinates must be only two integers\n
-    2 - A rover's start position must contain it coordinates followed by itS orientation [N, E, S, W]\n
+    2 - A rover's start position must contain it coordinates followed by its orientation [N, E, S, W]\n
     3 - A rover's movement instructions must only contain [L, R, M] and must not lead the rover out of bounds\n"
 
   MESSAGES = {
